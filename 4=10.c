@@ -1,5 +1,16 @@
 #include <stdio.h> 
 #include <stdbool.h>
+
+/*
+If im new to this code and trying to understad whats going on, it will be very hard to me.
+one reason is that there are lots of numbers and i cant undderstand whats their MEANING.
+what is this 4? what is that 3?
+I addition, lets assume that for some reason, you were asked to be able to get 5 numbers and not only 4. what a shame...
+you will need to change every time that 4 apears to 5. that will take you a lot of time. (and we put aside the logical problems)
+I want you to change/add code, in a way that you will be able to change only 1 codeline in order to change the numbers count.
+HINT: read about MAGIC NUMBER. you are already familiar with them, and this is their main purpose.
+*/ 
+
 double calculate(int nums[], char ops[]) {
 	double help[4];
 	help[0] = nums[0];
