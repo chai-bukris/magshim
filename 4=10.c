@@ -2,13 +2,40 @@
 #include <stdbool.h>
 #define numofnums 4
 /*
-If im new to this code and trying to understad whats going on, it will be very hard to me.
-one reason is that there are lots of numbers and i cant undderstand whats their MEANING.
-what is this 4? what is that 3? fixed 
-I addition, lets assume that for some reason, you were asked to be able to get 5 numbers and not only 4. what a shame...
-you will need to change every time that 4 apears to 5. that will take you a lot of time. (and we put aside the logical problems)
-I want you to change/add code, in a way that you will be able to change only 1 codeline in order to change the numbers count.
-HINT: read about MAGIC NUMBER. you are already familiar with them, and this is their main purpose. fixed
+great. one moore thing - when we use MAGICs, we save them with capital letters - NUM_OF_NUMS.
+this way, while reading the code its easy to notice it.
+
+the code is complicated. the reason - its human thinking, and not using the computer abilities
+i think it will take more time to reach the best code, but lets start from this:
+you need to seperate MORE to functions.
+for example - you dont have a basic calc(int num1, int num2, char op) func. 
+its in the big calculate func, and its very clumsy and inelegant.
+
+think about more functions you can make to make your code easier to read.
+
+we have two main rules (for now) when it comes to code with functions:
+- the function need to be no longer than four fingers that you put horizonally on the screen. thats about 15-20 code lines.
+- the main() shouldnt hold complicated logic. only simple and understandable actions.
+for example, the main() of FIFA should lok like this:
+int main() {
+	loading_screen();
+ 	start();
+  	activate_menu();
+   	exit();
+}
+you ask yourself how? every function hold many other functions, etc. that way, its very easy to refactor the code
+for example, the activate_menu() will look something like this:
+void activate_menu() {
+	while (!EXIT_FLAG) {
+ 		if (selection=MULTIPLAYER) {activate_multiplayer()};
+   		if (selection=TOURNAMENT) {activate_tournament()};
+     		if (selection=SINGLE_MATCH) {activate_single_match()};
+     		if (selection=EXIT) (EXIT_FLAF=1);
+	}
+}
+
+only the most bottom and tatic functions actually holds logic. most of the code is in reasonable "english"
+good luck!
 */ 
 
 double calculate(int nums[], char ops[]) {
