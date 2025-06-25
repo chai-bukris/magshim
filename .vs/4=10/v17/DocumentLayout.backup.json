@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\yampb\\source\\repos\\4=10\\",
+  "WorkspaceRootPath": "C:\\Users\\yampb\\source\\repos\\magshim\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{327D46F6-EFFD-4FB0-B6C8-0A62ED246663}|4=10.vcxproj|C:\\Users\\yampb\\source\\repos\\4=10\\4=10.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{327D46F6-EFFD-4FB0-B6C8-0A62ED246663}|4=10.vcxproj|C:\\Users\\yampb\\source\\repos\\magshim\\4=10.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{327D46F6-EFFD-4FB0-B6C8-0A62ED246663}|4=10.vcxproj|solutionrelative:4=10.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "4=10.c",
-              "DocumentMoniker": "C:\\Users\\yampb\\source\\repos\\4=10\\4=10.c",
+              "DocumentMoniker": "C:\\Users\\yampb\\source\\repos\\magshim\\4=10.c",
               "RelativeDocumentMoniker": "4=10.c",
-              "ToolTip": "C:\\Users\\yampb\\source\\repos\\4=10\\4=10.c",
-              "RelativeToolTip": "4=10.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAAADAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\yampb\\source\\repos\\magshim\\4=10.c*",
+              "RelativeToolTip": "4=10.c*",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAAAEoAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-11-01T08:24:14.178Z",
               "EditorCaption": ""
