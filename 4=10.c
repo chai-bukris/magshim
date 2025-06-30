@@ -2,41 +2,6 @@
 #include <stdbool.h>
 #define NUM_OF_NUMS 4
 /*
-great. one more thing - when we use MAGICs, we save them with capital letters - NUM_OF_NUMS.
-this way, while reading the code its easy to notice it. done
-
-the code is complicated. the reason - its human thinking, and not using the computer abilities
-i think it will take more time to reach the best code, but lets start from this:
-you need to seperate MORE to functions.
-for example - you dont have a basic calc(int num1, int num2, char op) func. 
-its in the big calculate func, and its very clumsy and inelegant.
-
-think about more functions you can make to make your code easier to read.
-
-we have two main rules (for now) when it comes to code with functions:
-- the function needs to be no longer than four fingers that you put horizonally on the screen. thats about 15-20 code lines.
-- the main() shouldnt hold complicated logic. only simple and understandable actions.
-for example, the main() of FIFA should lok like this:
-int main() {
-	loading_screen();
- 	start();
-  	activate_menu();
-   	exit();
-}
-you ask yourself how? every function hold many other functions, etc. that way, its very easy to refactor the code
-for example, the activate_menu() will look something like this:
-void activate_menu() {
-	while (!EXIT_FLAG) {
- 		if (selection=MULTIPLAYER) {activate_multiplayer()};
-   		if (selection=TOURNAMENT) {activate_tournament()};
-     		if (selection=SINGLE_MATCH) {activate_single_match()};
-     		if (selection=EXIT) (EXIT_FLAG=1);
-	}
-}
-
-only the most bottom and tatic functions actually holds logic. most of the code is in reasonable "english"
-good luck!
-
 this code doesn't work right now (the calculate func specifically).
 the variabale "index" doesn't change after calling Multiply_and_Divide function although its supposed to modify it.
 the multiply func works well and the list "result", for example, is actually updated.
@@ -44,6 +9,28 @@ but index is changed during running Multiply but after that it becomes 0 again (
 I tried to not initialize it (like I did with result) but the output was same. 
 
 out of this, the main is still really complicated but i guess i will learn later the tools to simplify it. 
+
+In C and many other languages, you can't change a variable from inside a func if it wasm allocated outside of it. 
+If you want to understand it deeply i recommend you to read about the stack and how functions in C works, that will explain it well.
+at the bottom line, when you change index in the function it will not affect index in main. 
+thus, you need to return the index value, and re-assign it after the function. you can also use pointers(thats the reason "result" list do change), but we will meet it lately.
+thats for functionality, that the first fixes you should make. (read about the stack and fix the code so it will work)
+
+afterwards, i want you to search for a more elegant way to write the calc function.
+hint: what if you had 10 cases? you would write 10 times else if? maybe there's a way a bit more fit.
+
+in addition, you have one function called calc and another one calculate. hmmm... think a bit more about naming.
+for "Multiply_and_Divide", its a good name but its written in strange way. read about function naming methods:
+snake_case
+CamelCase
+and choose one. in C it is common to use snake_case, but its your choice and what you think will be more convinient to you.
+
+finally, i have to admit that the code is still fully understandable. yes, it builded a little more beautiful with functions.
+but its not intuitive. if i have a calc func, why whould i have another func that makes calculations between * and /?
+of course, you have a reason, but as a reader i can be very confused. 
+the solution is to DOCUMENT your code. read about documentation (a cross-language term), choose one method that you like and document your code.
+i recommend to choose a short one so tou will not get tired of it fastly, its maybe one of the nost boring things to do while coding but its important when working on large code-bases or complicated ones.
+good luck!
 */ 
 
 double calc(double num1, double num2, char op) {
