@@ -2,7 +2,13 @@
 #include <stdbool.h>
 #define NUM_OF_NUMS 4
 /*
-everything is done
+thats better.
+now we have a problem - you solved in a great way for question with 4 numbers. what if we had 10 numbers?
+find more generic solution that will fit.
+In addition, you can still seperate your main logic to functions. i see there lots of logic and its very complicated!
+your main should be readable to someone like Yam - know something about computer and software but not a professional.
+
+at this time i didnt gave you specific fixes - cause i want you to think hard. its a hard exercise whn you need to write it right, but i believe you can do it if you would try enough.
 */ 
 
 double calc(double num1, double num2, char op) { // basic calculation function
