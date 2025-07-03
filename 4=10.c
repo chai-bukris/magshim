@@ -1,14 +1,16 @@
 #include <stdio.h> 
 #include <stdbool.h>
-#define NUM_OF_NUMS 4
-/*
-thats better.
-now we have a problem - you solved in a great way for question with 4 numbers. what if we had 10 numbers?
-find more generic solution that will fit.
-In addition, you can still seperate your main logic to functions. i see there lots of logic and its very complicated!
-your main should be readable to someone like Yam - know something about computer and software but not a professional.
+#include <math.h>
 
-at this time i didnt gave you specific fixes - cause i want you to think hard. its a hard exercise whn you need to write it right, but i believe you can do it if you would try enough.
+#define NUM_OF_NUMS 4
+
+char operations[] = { '+', '-', '*', '/' };
+int numbers[NUM_OF_NUMS];
+char temp_ops[NUM_OF_NUMS - 1];
+/*
+at last I decided to go for recursion, and it worked perfectly. 
+this code works for any NUM_OF_NUMS, changes the order of numbers from the input if needed and knows to use the operations order.
+I guess I finished unless you want me to add more abilities to the code.
 */ 
 
 double calc(double num1, double num2, char op) { // basic calculation function
@@ -26,15 +28,18 @@ double calc(double num1, double num2, char op) { // basic calculation function
 
 int multiply_and_divide(int nums[], char ops[], double result[]) { 
 	// calculates only multiplying and dividing operators for respecting the order of arithmetic operations
+	for (int i = 0; i < NUM_OF_NUMS - 1; i++) {
+		temp_ops[i] = ops[i]; // we want to keep ops unmodified for later printing
+	} 
 	int index = 0; // used for modifying the lists and preparing them for the next calculation actions
 	result[0] = nums[0];
 	for (int i = 0; i < NUM_OF_NUMS - 1; i++) {
-		if (ops[i] == '*' || (ops[i] == '/' && nums[i + 1] != 0)) {
-			result[index] = calc(result[index], nums[i + 1], ops[i]);
+		if (temp_ops[i] == '*' || (temp_ops[i] == '/' && nums[i + 1] != 0)) {
+			result[index] = calc(result[index], nums[i + 1], temp_ops[i]);
 		}
-		else if (ops[i] == '/' && nums[i + 1] == 0) {return -1;}
+		else if (temp_ops[i] == '/' && nums[i + 1] == 0) {return -1;}
 		else {
-			ops[index] = ops[i];
+			temp_ops[index] = temp_ops[i];
 			index++;
 			result[index] = nums[i + 1];
 		}
@@ -48,9 +53,48 @@ double calculate_all_numbers(int nums[], char ops[]) { // calculates the exercis
 	index = multiply_and_divide(nums, ops, result);
 	if (index == -1) {return 0;}
 	for (int i = 0; i < index; i++) {
-		result[0] = calc(result[0], result[i + 1], ops[i]); // all the calculations are in result[0]
+		result[0] = calc(result[0], result[i + 1], temp_ops[i]); // all the calculations are in result[0]
 	}
 	return result[0];
+}
+
+int combine_operators(int nums[]) { // trys any operators combination for a given numbers order
+	char ops[NUM_OF_NUMS - 1];
+	for (int i = 0; i < pow(4, NUM_OF_NUMS - 1); i++) { // iterates as many times as the number of possible combinations
+		int base_4 = i;
+		for (int j = 0; j < NUM_OF_NUMS - 1; j++) {
+			ops[j] = operations[base_4 % 4]; // hard logic. we treat i like a base 4 number when each digit represents an operator
+			base_4 /= 4;
+		}
+		if (calculate_all_numbers(nums, ops) == 10) {
+			// print the exercise if it's result is 10
+			for (int j = 0; j < NUM_OF_NUMS - 1; j++) {
+				printf("%d %c ", nums[j], ops[j]);
+			}
+			printf("%d", nums[NUM_OF_NUMS - 1]);
+			return 0;
+		}
+	}
+	return -1;
+}
+
+bool used[NUM_OF_NUMS]; // prevents doubling a number
+
+int find_exercise(int numbers_filled, int current_numbers[]) {
+	if (numbers_filled == NUM_OF_NUMS) {
+		return combine_operators(current_numbers);
+	}
+	for (int i = 0; i < NUM_OF_NUMS; i++) {
+		if (!used[i]) {
+			current_numbers[numbers_filled] = numbers[i];
+			used[i] = true;
+			if (find_exercise(numbers_filled + 1, current_numbers) == 0) { // call this function recursively until all numbers are filled
+				return 0;
+			}
+			used[i] = false; // if the exercise was wrong - start again 
+		}
+	}
+	return -1; // indicates that no exercise was found
 }
 
 int verify(int numbers[]) { // ensures the input is proper
@@ -70,52 +114,14 @@ int verify(int numbers[]) { // ensures the input is proper
 }
 
 int main() {
-	int numbers[NUM_OF_NUMS];
 	printf("Enter 4 numbers between 0 and 9: ");
 	int x = verify(numbers);
 	if (x == 0) {return 0;}
-	char operations[] = {'+', '-', '*', '/'};
-	char ops[NUM_OF_NUMS - 1];
-	int nums[NUM_OF_NUMS];
-	for (int m = 0; m < NUM_OF_NUMS; m++) { // going through all the possible combinations of the numbers and operators
-		nums[0] = numbers[m];
-		for (int a = 0; a < NUM_OF_NUMS; a++) {
-			ops[0] = operations[a];
-			for (int n = 0; n < NUM_OF_NUMS; n++) {
-				if (m == n) {
-					continue;
-				}
-				nums[1] = numbers[n];
-				for (int b = 0; b < NUM_OF_NUMS; b++) {
-					ops[1] = operations[b];
-					for (int o = 0; o < NUM_OF_NUMS; o++) {
-						if (o == n || o == m) {
-							continue;
-						}
-						nums[2] = numbers[o];
-						for (int c = 0; c < NUM_OF_NUMS; c++) {
-							ops[2] = operations[c];
-							for (int p = 0; p < NUM_OF_NUMS; p++) {
-								if (p == n || p == m || p == o) {
-									continue;
-								}
-								nums[3] = numbers[p];
-								if (calculate_all_numbers(nums, ops) == 10) {
-									// print the exercise if it's result is 10
-									printf("%d %c %d %c %d %c %d\n", nums[0], ops[0], nums[1], ops[1], nums[2], ops[2], nums[3]); 
-									return 0;
-								}
-							}
-
-						}
-					}
-
-				}
-			}
-
-		}
+	int current_numbers[NUM_OF_NUMS];
+	int y = find_exercise(0, current_numbers);
+	if (y == -1) {
+		printf("no exercise was found");
 	}
-
 	return 0;
 }
 
