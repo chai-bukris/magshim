@@ -7,37 +7,10 @@
 char operations[] = { '+', '-', '*', '/' };
 int numbers[NUM_OF_NUMS];
 char temp_ops[NUM_OF_NUMS - 1];
+
 /*
-seems like the code is RIGHT. congrats
-
-
-now some cosmetic fixes i think you sould improve:
-"calc" was a good name, before you had like 4 functions that calculate something. 
-call it something more clear, like basic_calc or any other name that indicates it is the most basic action
---
-the fact that you have a multiply and divide function makes it more reasonable to have add and substract function
-then, when someone reads it its clear that you first /* and then +-
---
-multiply_and_divide - you have a complicated if-else sequence. 
-you can do it a bit better - longer, but simpler. think how and do it
-(hint - we will do everything to avoid terms like (|| || &&), or (&& ||). 
-each if should be one logic unit, and you check both if its (/ or *), and validate its not 0, all in one logic unit)
---
-a suggestion that im not sure of - will it be more convenient if we use MAGICs for the operators?
-what do we prefer:
-temp_ops[i] == '*'
-or 
-temp_ops[i] == MULTIPLY
---
-In my opinion combine_operators function is a bit too long. see if you can split it into 2 simpler functions.
-{for you to learn to fix yourself - i actually dont fully understand the base_4, but still managed to understand that this function needs a split. 
-why? because there is some logic under two for loops, and this logic is only under the lower one - which means i dont interfere in the middle of the pass between the two for loops. thus, it seems that there is an INDEPENDENT logic unit there- should be in a function}
---
-actually, your documentation is great. not too long, not too short, only when its really needed. great.
-
-
-after all of that fixes, give a look to the first version (you can see it here on github), and see how important it to write BEAUTIFUL and READABLE code. you cant even compare them.
-*/ 
+how did YOU solve it? im curious
+*/
 
 double basic_calc(double num1, double num2, char op) { // basic calculation function
 	switch (op) {
