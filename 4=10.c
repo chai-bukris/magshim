@@ -1,29 +1,11 @@
 #include <stdio.h> 
 #include <stdbool.h>
 #include <math.h>
-
-#define NUM_OF_NUMS 4
-
-char operations[] = { '+', '-', '*', '/' };
-int numbers[NUM_OF_NUMS];
-char temp_ops[NUM_OF_NUMS - 1];
+#include "4=10_header.h"
 
 /*
 how did YOU solve it? im curious
 */
-
-double basic_calc(double num1, double num2, char op) { // basic calculation function
-	switch (op) {
-		case '+':
-			return num1 + num2;
-		case '-':
-			return num1 - num2;
-		case '/':
-			return num1 / num2;
-		case '*':
-			return num1 * num2;
-	}
-}
 
 int multiply_and_divide(int nums[], char ops[], double result[]) { 
 	// calculates only multiplying and dividing operators first for respecting the order of arithmetic operations
@@ -85,14 +67,12 @@ int combine_operators(int nums[]) { // trys any operators combination for a give
 	return -1;
 }
 
-bool used[NUM_OF_NUMS]; // prevents doubling a number
-
 int find_exercise(int numbers_filled, int current_numbers[]) {
 	if (numbers_filled == NUM_OF_NUMS) {
 		return combine_operators(current_numbers);
 	}
 	for (int i = 0; i < NUM_OF_NUMS; i++) {
-		if (!used[i]) {
+		if (!used[i]) { // prevents doubling a number
 			current_numbers[numbers_filled] = numbers[i];
 			used[i] = true;
 			if (find_exercise(numbers_filled + 1, current_numbers) == 0) { // call this function recursively until all numbers are filled
