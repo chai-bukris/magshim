@@ -9,7 +9,14 @@ int numbers[NUM_OF_NUMS];
 char temp_ops[NUM_OF_NUMS - 1];
 
 /*
-how did YOU solve it? im curious
+how did YOU solve it? im curious -> Well, since i did it in python it was pretty simple:
+I just builded all the options of ordering the numbers, then created all the options of ordering the operations, both with existing library.
+Then mixed them num-op-num-op-num-op... and calculated the string, with existing library
+Thats the power of python - the existing libraries.
+
+well 1 last thing - the header file does not hold enough. its not only meant for consts, but for functoins declerations too.
+In addition, your H file adds nothing, everythin is just copied.... it is suppose to be a HEADER file, which means only header - not values, not ןimplementations.
+check the internet how a proper H file is built
 */
 
 double basic_calc(double num1, double num2, char op) { // basic calculation function
