@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <stdbool.h>
 #include <math.h>
+#include <stdlib.h>
 #include "4=10_header.h"
 
 double basic_calc(double num1, double num2, char op) { 
@@ -44,28 +45,36 @@ void add_and_substract(double result[], int index, char ops[]) {
 
 double calculate_expression(double nums[], char ops[]) {
 	int index = 0; // used for measuring the list's length after multiplying and dividing
-	double result[NUM_OF_NUMS];
+	double* result = (double*)malloc(NUM_OF_NUMS * sizeof(double));
 	index = multiply_and_divide(nums, ops, result);
-	if (index == -1) return 0;
+	if (index == -1) {
+		free(result);
+		return 0;
+	}
 	add_and_substract(result, index, temp_ops);
-	return result[0];
+	double expression_result = result[0];
+	free(result);
+	return expression_result;
 }
 
 double calculate_parens(int nums[], char ops[], int start_paren, int end_paren) {
-	double paren_nums[NUM_OF_NUMS];
-	char paren_ops[NUM_OF_NUMS - 1];
+	double* paren_nums = (double*)malloc(NUM_OF_NUMS * sizeof(double));
+	char* paren_ops = (char*)malloc((NUM_OF_NUMS - 1) * sizeof(char));
 	for (int i = 0; i <= end_paren - start_paren; i++) {
 		paren_nums[i] = nums[start_paren + i - 1];
 	}
 	for (int i = 0; i < end_paren - start_paren; i++) {
 		paren_ops[i] = ops[start_paren + i - 1];
 	}
-	return calculate_expression(paren_nums, paren_ops);
+	double result = calculate_expression(paren_nums, paren_ops);
+	free(paren_nums);
+	free(paren_ops);
+	return result;
 }
 
 double calculate_all_numbers(int nums[], char ops[], int start_paren, int end_paren) {
 	double parens_result = calculate_parens(nums, ops, start_paren, end_paren);
-	char ex_paren_ops[NUM_OF_NUMS];
+	char* ex_paren_ops = (char*)malloc((NUM_OF_NUMS - 1) * sizeof(char));
 	for (int i = 0; i < start_paren - 1; i++) { // builds a new list after calculating inside the parentheses
 		temp_result[i] = nums[i];
 		ex_paren_ops[i] = ops[i];
@@ -77,7 +86,9 @@ double calculate_all_numbers(int nums[], char ops[], int start_paren, int end_pa
 		ex_paren_ops[ex_index - 1] = ops[i - 1];
 		ex_index++;
 	}
-	return calculate_expression(temp_result, ex_paren_ops);
+	double result = calculate_expression(temp_result, ex_paren_ops);
+	free(ex_paren_ops);
+	return result;
 }
 
 void base_4(char ops[], int i) { // create an operations sequence according to a current iteration
@@ -104,30 +115,35 @@ void print_with_parens(int nums[], char ops[], int start, int end) {
 }
 
 int combine_operators(int nums[]) {
-	char ops[NUM_OF_NUMS - 1];
+	char* ops = (char*)malloc((NUM_OF_NUMS - 1) * sizeof(char));
+	double* double_nums = (double*)malloc(NUM_OF_NUMS * sizeof(double));
+	for (int j = 0; j < NUM_OF_NUMS; j++) {
+		double_nums[j] = (double)nums[j];
+	}
 	for (int i = 0; i < pow(4, NUM_OF_NUMS - 1); i++) { // iterates as many times as the number of possible combinations
 		base_4(ops, i);
-		double double_nums[NUM_OF_NUMS];
-		for (int j = 0; j < NUM_OF_NUMS; j++) {
-			double_nums[j] = (double)nums[j];
-		}
-		if (calculate_expression(double_nums, ops) == 10) {
-			// print the exercise if it's result is 10
+		if (calculate_expression(double_nums, ops) == target) { // print the exercise if it's result equals the target
 			for (int j = 0; j < NUM_OF_NUMS - 1; j++) {
 				printf("%d %c ", nums[j], ops[j]);
 			}
 			printf("%d", nums[NUM_OF_NUMS - 1]);
+			free(ops);
+			free(double_nums);
 			return 0;
 		}
 		for (int start = 1; start < NUM_OF_NUMS; start++) { // try with parentheses
 			for (int end = start + 1; end <= NUM_OF_NUMS; end++) {
-				if (calculate_all_numbers(nums, ops, start, end) == 10) {
+				if (calculate_all_numbers(nums, ops, start, end) == target) {
 					print_with_parens(nums, ops, start, end);
+					free(ops);
+					free(double_nums);
 					return 0;
 				}
 			}
 		}
 	}
+	free(ops);
+	free(double_nums);
 	return -1;
 }
 
@@ -149,10 +165,10 @@ int find_exercise(int numbers_filled, int current_numbers[]) {
 }
 
 int verify(int numbers[]) {
-	int arr[NUM_OF_NUMS];
+	int valid = 1;
 	for (int i = 0; i < NUM_OF_NUMS; i++) {
-		arr[i] = scanf_s("%d", &numbers[i]);
-		if (arr[i] != 1) {
+		valid = scanf_s("%d", &numbers[i]);
+		if (valid != 1) {
 			printf("bruh, I told you to enter numbers");
 			return 0;
 		}
@@ -164,14 +180,38 @@ int verify(int numbers[]) {
 	return 1;
 }
 
-int main() {
-	printf("Enter 4 numbers between 0 and 9: ");
-	int x = verify(numbers);
-	if (x == 0) {return 0;}
-	int current_numbers[NUM_OF_NUMS] = {0};
-	int y = find_exercise(0, current_numbers);
-	if (y == -1) {
+int main(int argc, char* argv[]) {
+	target = 10;
+	NUM_OF_NUMS = 4;
+	if (argc >= 2) {
+		target = atoi(argv[1]);
+	}
+	if (argc == 3) {
+		NUM_OF_NUMS = atoi(argv[2]);
+	}
+	numbers = (int*)malloc(NUM_OF_NUMS * sizeof(int));
+	temp_ops = (char*)malloc((NUM_OF_NUMS - 1) * sizeof(char));
+	temp_result = (double*)malloc(NUM_OF_NUMS * sizeof(double));
+	used = (bool*)malloc(NUM_OF_NUMS * sizeof(bool));
+	for (int i = 0; i < NUM_OF_NUMS; i++) {
+		used[i] = false;
+	}
+	printf("Enter %d numbers between 0 and 9: ", NUM_OF_NUMS);
+	if (verify(numbers) == 0) {
+		free(numbers);
+		free(temp_ops);
+		free(temp_result);
+		free(used);
+		return 0;
+	}
+	int* current_numbers = (int*)calloc(NUM_OF_NUMS, sizeof(int));
+	if (find_exercise(0, current_numbers) == -1) {
 		printf("no exercise was found");
 	}
+	free(current_numbers);
+	free(numbers);
+	free(temp_ops);
+	free(temp_result);
+	free(used);
 	return 0;
 }

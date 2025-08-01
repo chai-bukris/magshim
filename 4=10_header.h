@@ -1,10 +1,11 @@
 #pragma once
-#define NUM_OF_NUMS 4
+int NUM_OF_NUMS = 0;
+int target = 0;
 char operations[] = { '+', '-', '*', '/' };
-int numbers[NUM_OF_NUMS];
-char temp_ops[NUM_OF_NUMS - 1];
-double temp_result[NUM_OF_NUMS];
-bool used[NUM_OF_NUMS] = {false};
+int* numbers;
+char* temp_ops;
+double* temp_result;
+bool* used;
 
 double basic_calc(double num1, double num2, char op); // basic calculation function
 
@@ -17,11 +18,12 @@ double calculate_expression(double nums[], char ops[]);
 
 double calculate_parens(int nums[], char ops[], int start_paren, int end_paren);
 
-double calculate_all_numbers(int nums[], char ops[], int start_paren, int end_paren);
+double calculate_all_numbers(int nums[], char ops[], int start_paren, int end_paren); 
+	// calculates the exercise with given numbers, operators and parentheses
 
 void print_with_parens(int nums[], char ops[], int start, int end);
 
-void base_4(char ops[], int i); // calculates the exercise with the given numbers and operators
+void base_4(char ops[], int i); 
 
 int combine_operators(int nums[]); // trys any operators combination for a given numbers order
 
